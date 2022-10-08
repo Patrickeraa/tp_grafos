@@ -3,11 +3,9 @@
 #include "functions.h"
 #include "functions.c"
 
-#define MAX_LINE_LENGTH 1000
-
 int main() {
-    FILE *arquivo = fopen("C:\\Users\\patri\\CLionProjects\\tp_grafos\\grafo.txt", "r");
-    float **grafo = inicializaGrafo(arquivo);
+    char path[250] = "C:\\Users\\patri\\CLionProjects\\tp_grafos\\grafo.txt";
+    float **grafo = inicializaGrafo(path);
     for (int i= 0; i<5; i++){
         if (i ==0){
             printf("");
@@ -19,5 +17,7 @@ int main() {
             printf("%.1f ", grafo[i][k]);
         }
     }
+    int ordem = ordemGrafo(path);
+    printf("\n%d", ordem);
     limpaGrafo(grafo, 5);
 }

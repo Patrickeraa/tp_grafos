@@ -1,6 +1,9 @@
 #include "functions.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-void lerGrafo(FILE *arquivo){
+void lerGrafo(char path[250]){
+    FILE *arquivo = fopen(path, "r");
     char ch;
     int counter = 1, vertice1, vertice2;
     int tamanho = (int)fgetc(arquivo)-48;
@@ -43,7 +46,8 @@ void lerGrafo(FILE *arquivo){
     fclose(arquivo);
 }
 
-float **inicializaGrafo(FILE *arquivo){
+float **inicializaGrafo(char path[250]){
+    FILE *arquivo = fopen(path, "r");
     int tamanho = (int)fgetc(arquivo)-48;
     float **grafo = (float **)malloc(tamanho * sizeof(float *));
     int row;
@@ -90,4 +94,11 @@ void limpaGrafo(float **grafo, int tamanho)
         free(grafo[row]);
     }
     free(grafo);
+}
+
+int ordemGrafo(char path[250]){
+    FILE *arquivo = fopen(path, "r");
+    int tamanho = (int)fgetc(arquivo) - 48;
+    fclose(arquivo);
+    return tamanho;
 }
