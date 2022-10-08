@@ -6,6 +6,7 @@
 int main() {
     char path[250] = "C:\\Users\\patri\\CLionProjects\\tp_grafos\\grafo.txt";
     float **grafo = inicializaGrafo(path);
+    int ordem = ordemGrafo(path);
     for (int i= 0; i<5; i++){
         if (i ==0){
             printf("");
@@ -17,7 +18,13 @@ int main() {
             printf("%.1f ", grafo[i][k]);
         }
     }
-    int ordem = ordemGrafo(path);
-    printf("\n%d", ordem);
-    limpaGrafo(grafo, 5);
+    int tamanho = tamanhoGrafo(grafo, ordem);
+    printf("\n%d", tamanho);
+
+    int **num_vizinhos = vizinhoVertice(grafo, ordem, 1);
+    printf("\n%d", num_vizinhos[1]);
+
+    int grau = grauVertice(grafo, ordem, 1);
+    printf("\n%d", grau);
+    return 0;
 }
