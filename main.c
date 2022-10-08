@@ -1,49 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "functions.h"
+#include "functions.c"
 
 #define MAX_LINE_LENGTH 1000
 
 int main() {
     FILE *arquivo = fopen("C:\\Users\\patri\\CLionProjects\\tp_grafos\\grafo.txt", "r");
-    char ch;
-    int counter = 0, tamanhoInt, vertice1, vertice2;
-    int  tamanho;
-    float  peso, grafo[3][3];
-    for (int i = 0; i<3; i++){
-        for (int k = 0; k<3; k++){
-            grafo[i][k] = 0.0;
+    float **grafo = inicializaGrafo(arquivo);
+    for (int i= 0; i<5; i++){
+        if (i ==0){
+            printf("");
         }
-    }
-    if (arquivo == NULL){
-        printf("No such file in directory");
-        exit(1);
-    }
-    while((ch = fgetc(arquivo))!=EOF) {
-        if (counter == 0){
-            tamanho = (int)fgetc(arquivo)-48;
-            counter ++;
+        else{
+            printf("\n");
         }
-        if (counter == 1){
-            fscanf(arquivo, "%d", &vertice1);
-            counter ++;
-        }
-        if (counter == 2){
-            fscanf(arquivo, "%d", &vertice2);
-            counter ++;
-        }
-        if (counter == 3){
-            fscanf(arquivo, "%f", &peso);
-            grafo[vertice1-1][vertice2-1] = (peso);
-            counter = 1;
-        }
-    }
-    for (int i= 0; i<tamanho; i++){
-        printf("\n");
-        for (int k = 0; k<tamanho; k++){
+        for (int k = 0; k<5; k++){
             printf("%.1f ", grafo[i][k]);
         }
     }
-    fclose(arquivo);
-    return 0;
+    limpaGrafo(grafo, 5);
 }
