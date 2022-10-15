@@ -4,7 +4,7 @@
 #include "functions.c"
 
 int main() {
-    char path[250] = "C:\\Users\\patri\\CLionProjects\\tp_grafos\\grafo.txt";
+    char path[250] = "./inputs/grafo.txt";
     float **grafo = inicializaGrafo(path);
     int ordem = ordemGrafo(path);
     for (int i= 0; i<5; i++){
