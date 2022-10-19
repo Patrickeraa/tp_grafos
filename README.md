@@ -24,8 +24,8 @@ informar a(s) aresta(s) que não faz(em) parte da árvore de busca em profundida
 Onde N é o número de vértices do grafo e d(y,x) é a distância entre os vértices x e
 y. Esta medida é conhecida na área de redes sociais e refere-se a distância média de x a
 um vértice qualquer do grafo.
-- Por fim, em https://paad-grafos.herokuapp.com pode-se salvar o grafo num
+- ~~Por fim, em https://paad-grafos.herokuapp.com pode-se salvar o grafo num
 arquivo .json. Assim deve-se implementar uma rotina que leia o arquivo .json e o coloque
 no formato de entrada exigido pelo arquivo de entrada deste trabalho. Além disso, devese implementar uma rotina que pegue um arquivo texto no formato de entrada exigido
-neste trabalho e gere o arquivo .json de modo que seja importado para o https://paadgrafos.herokuapp.com
+neste trabalho e gere o arquivo .json de modo que seja importado para o https://paadgrafos.herokuapp.com~~
 
