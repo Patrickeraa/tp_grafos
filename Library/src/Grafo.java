@@ -4,9 +4,9 @@ import java.util.*;
 import java.util.Map;
 
 public class Grafo {
-    int n;
+    int numVertices;
     int prev[];
-    Map<Integer, List<Aresta>> grafo;
+    Map<Integer, PriorityQueue<Aresta>> grafo;
     public Grafo(){
         this.grafo = new HashMap<>();
     }
@@ -15,19 +15,41 @@ public class Grafo {
         String property = System.getProperty("user.dir");
         File f = new File(property+"/resources/grafo.txt");
         try (Scanner s = new Scanner(f)) {
-            n = s.nextInt();
+            numVertices = s.nextInt();
             int u,v;
             float p;
             while(s.hasNext()){
-                String[] split = s.nextLine().split(" ");
-//                u = Integer.parseInt(split[0]);
-//                v = Integer.parseInt(split[1]);
-//                p = Float.parseFloat(split[2]);
-//                System.out.println(String.format("%d %d %.f",u,v,p));
-                System.out.println(split[1]);
+//                String[] split = s.nextLine().split(" ");
+                u = Integer.parseInt(s.next());
+                v = Integer.parseInt(s.next());
+                p = Float.parseFloat(s.next());
+                adicionaAresta(u,v,p);
+                adicionaAresta(v,u,p);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    private void adicionaAresta(int u,int v,float p){
+        if(this.grafo.containsKey(u)){
+            this.grafo.get(u).add(new Aresta(u,v,p));
+        }else{
+            this.grafo.put(u,new PriorityQueue<Aresta>(List.of(new Aresta(u, v, p))));
+        }
+    }
+    public void imprimeGrafo(){
+       for(Integer key: this.grafo.keySet()){
+           PriorityQueue<Aresta> arestas = this.grafo.get(key);
+           Iterator<Aresta> iterator = arestas.iterator();
+           System.out.print(String.format("V%d:",key));
+           while(iterator.hasNext()){
+               Aresta a = iterator.next();
+               System.out.print(String.format(" V%d (%.1f)",a.para,a.peso));
+           }
+           System.out.println();
+       }
+    }
+    public void ordemDoGrafo(){
+        System.out.println(String.format("A ordem do grafo é: %d",this.numVertices));
     }
 }
