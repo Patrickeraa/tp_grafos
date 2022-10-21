@@ -1,8 +1,11 @@
+import java.util.PriorityQueue;
+
 public class Main {
     public static void main(String[] args) {
 
-        Grafo grafo = new Grafo();
-        grafo.criaGrafo();
+        UI ui = new UI();
+        ui.abreMenu();
+
 
     }
 }
