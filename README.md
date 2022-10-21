@@ -5,7 +5,7 @@
 ![Exemplo1](assets/exemplos/ex1.png)
 
 ### Requisitos
-- ~~Retornar a ordem do grafo
+- ~~Retornar a ordem do grafo~~
 - Retornar o tamanho do grafo
 - Retornar os vizinhos de um vértice fornecido
 - Determinar o grau de um vértice fornecido
