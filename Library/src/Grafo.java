@@ -13,7 +13,7 @@ public class Grafo {
     public void criaGrafo(){
 
         String property = System.getProperty("user.dir");
-        File f = new File(property+"/Library/resources/grafo.txt");
+        File f = new File(property+"/resources/grafo.txt");
         try (Scanner s = new Scanner(f)) {
             numVertices = s.nextInt();
             int u,v;
