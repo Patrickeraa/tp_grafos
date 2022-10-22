@@ -13,7 +13,7 @@ public class Grafo {
     public void criaGrafo(){
 
         String property = System.getProperty("user.dir");
-        File f = new File(property+"/resources/grafo.txt");
+        File f = new File(property+"/Library/resources/grafo.txt");
         try (Scanner s = new Scanner(f)) {
             numVertices = s.nextInt();
             int u,v;
@@ -38,16 +38,16 @@ public class Grafo {
         }
     }
     public void imprimeGrafo(){
-       for(Integer key: this.grafo.keySet()){
-           PriorityQueue<Aresta> arestas = this.grafo.get(key);
-           Iterator<Aresta> iterator = arestas.iterator();
-           System.out.print(String.format("V%d:",key));
-           while(iterator.hasNext()){
-               Aresta a = iterator.next();
-               System.out.print(String.format(" V%d (%.1f)",a.para,a.peso));
-           }
-           System.out.println();
-       }
+        for(Integer key: this.grafo.keySet()){
+            PriorityQueue<Aresta> arestas = this.grafo.get(key);
+            Iterator<Aresta> iterator = arestas.iterator();
+            System.out.print(String.format("V%d:",key));
+            while(iterator.hasNext()){
+                Aresta a = iterator.next();
+                System.out.print(String.format(" V%d (%.1f)",a.para,a.peso));
+            }
+            System.out.println();
+        }
     }
     public void ordemDoGrafo(){
         System.out.println(String.format("A ordem do grafo é: %d",this.numVertices));
