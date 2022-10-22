@@ -35,8 +35,35 @@ public class UI {
     }
 
     private void escolheOpcao(int opcao){
+        int u;
         switch (opcao){
             case 1: grafo.ordemDoGrafo();break;
+            case 2: grafo.tamanhoDoGrafo();break;
+            case 3:
+                u = solicitaVertice();
+                grafo.vizinhosDe(u);break;
+            case 4:
+                u = solicitaVertice();
+                grafo.grauDe(u);break;
+            case 5:
+                grafo.sequenciaDeGraus();break;
+            case 6:
+                u = solicitaVertice();
+                int exc = grafo.excentricidadeDe(u);
+                System.out.println(String.format("A excentricidade de V%d é %d",u,exc));break;
+            case 7:
+                int raio = grafo.getRaio();
+                System.out.println(String.format("O raio do grafo é %d",raio));break;
+            case 8:
+                int diametro = grafo.getDiametro();
+                System.out.println(String.format(String.format("O diametro do grafo é %d",diametro)));break;
+
         }
+    }
+    private int solicitaVertice(){
+        Scanner input = new Scanner(System.in);
+        System.out.print("Informe um vértice:");
+        int u = input.nextInt();
+        return u;
     }
 }
