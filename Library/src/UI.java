@@ -59,6 +59,9 @@ public class UI {
             case 8:
                 int diametro = grafo.getDiametro();
                 System.out.println(String.format(String.format("O diametro do grafo é %d",diametro)));break;
+            case 9:
+                grafo.centro();
+                break;
 
         }
     }

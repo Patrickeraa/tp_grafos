@@ -1,21 +1,26 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Grafo {
     private int numArestas;
     private Integer VISITADO = 0;
+
     int prev[];
     Map<Integer, PriorityQueue<Aresta>> grafo;
+
     private int raio = Integer.MAX_VALUE;
     private int diametro = 0;
+
     public Grafo(){
         this.grafo = new HashMap<>();
     }
+
     public void criaGrafo(){
 
         String property = System.getProperty("user.dir");
+        // File f = new File(property+"/Library/resources/grafo.txt");
         File f = new File(property+"/resources/grafo.txt");
         try (Scanner s = new Scanner(f)) {
             s.nextInt();
@@ -34,6 +39,7 @@ public class Grafo {
         }
         this.calculaRadioEDiametro();
     }
+
     private void adicionaAresta(int u,int v,float p){
         if(this.grafo.containsKey(u)){
             this.grafo.get(u).add(new Aresta(u,v,p));
@@ -41,6 +47,7 @@ public class Grafo {
             this.grafo.put(u,new PriorityQueue<Aresta>(List.of(new Aresta(u, v, p))));
         }
     }
+
     public void imprimeGrafo(){
         for(Integer key: this.grafo.keySet()){
             PriorityQueue<Aresta> arestas = this.grafo.get(key);
@@ -53,12 +60,15 @@ public class Grafo {
             System.out.println();
         }
     }
+
     public void ordemDoGrafo(){
         System.out.println(String.format("A ordem do grafo é: %d",this.grafo.size()));
     }
+
     public void tamanhoDoGrafo(){
         System.out.println(String.format("O tamanho do grafo é: %d",this.numArestas));
     }
+
     public void vizinhosDe(int u){
         PriorityQueue<Aresta> arestas = this.grafo.get(u);
         Iterator<Aresta> iterator = arestas.iterator();
@@ -69,10 +79,12 @@ public class Grafo {
         }
         System.out.println();
     }
+
     public void grauDe(int u){
         int grau = this.grafo.get(u).size();
         System.out.println(String.format("O grau do vértice %d é %d",u,grau));
     }
+
     public void sequenciaDeGraus(){
         Comparator<Integer> comparator = new Comparator<>() {
             @Override
@@ -87,6 +99,7 @@ public class Grafo {
         }
         System.out.println(String.format("A sequencia de graus é: %s",sequencia));
     }
+
     public int excentricidadeDe(int u){
         this.VISITADO++;
         final int FLAG = -1;
@@ -135,5 +148,41 @@ public class Grafo {
 
     public int getDiametro() {
         return diametro;
+    }
+
+    public void centro() {
+        // verificar a excentricidade de todos os vértices
+        // armazenar as excentricidades para cada vértice
+        // selecionar as menores excentricidades
+        // printar os vértices do centro
+        ArrayList<String> keys = new ArrayList<String>();
+        ArrayList<Integer> vals = new ArrayList<Integer>();
+
+        for(Integer u :this.grafo.keySet()){
+            int excentricidade = excentricidadeDe(u);
+            vals.add(excentricidade);
+            keys.add("V"+u);
+        }
+
+        Integer low = 0;
+        for (int i = 0; i < vals.size(); i++) {
+            if (i == 0 || vals.get(i) < low) {
+                low = vals.get(i);
+            }
+        }
+
+        for (int i = vals.size()-1; i >= 0; i--) {
+            if (vals.get(i) > low) {
+                vals.remove(i);
+                keys.remove(i);
+            }
+        }
+
+        System.out.println("Centro do grafo: ");
+
+        for (int i = 0; i < vals.size(); i++) {
+            System.out.println(keys.get(i)+" ");
+        }
+
     }
 }

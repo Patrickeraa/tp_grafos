@@ -9,8 +9,6 @@ public class Aresta implements Comparable<Aresta> {
         this.peso = peso;
     }
 
-
-
     @Override
     public int compareTo(Aresta o) {
         if(this.para > o.para)
