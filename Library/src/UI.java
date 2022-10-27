@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UI {
@@ -60,7 +61,12 @@ public class UI {
                 int diametro = grafo.getDiametro();
                 System.out.println(String.format(String.format("O diametro do grafo é %d",diametro)));break;
             case 9:
-                grafo.centro();
+                ArrayList<String> vs = grafo.centro();
+                System.out.println("Centro do grafo: ");
+
+                for (int i = 0; i < vs.size(); i++) {
+                    System.out.println(vs.get(i)+" ");
+                }
                 break;
 
         }

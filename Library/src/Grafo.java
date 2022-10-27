@@ -150,7 +150,7 @@ public class Grafo {
         return diametro;
     }
 
-    public void centro() {
+    public ArrayList<String> centro() {
         // verificar a excentricidade de todos os vértices
         // armazenar as excentricidades para cada vértice
         // selecionar as menores excentricidades
@@ -178,11 +178,7 @@ public class Grafo {
             }
         }
 
-        System.out.println("Centro do grafo: ");
-
-        for (int i = 0; i < vals.size(); i++) {
-            System.out.println(keys.get(i)+" ");
-        }
+        return keys;
 
     }
 }
