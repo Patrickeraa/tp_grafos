@@ -68,6 +68,13 @@ public class UI {
                     System.out.println(vs.get(i)+" ");
                 }
                 break;
+            case 10:
+                int origem = solicitaVertice();
+                grafo.buscaProfundidade(origem);
+                System.out.println("Árvore profundidade: "+grafo.getArvoreProfundidade());
+                System.out.println("Arestas retorno: "+grafo.getArestasRetorno());
+                break;
+
 
         }
     }

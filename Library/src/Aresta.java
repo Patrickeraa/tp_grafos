@@ -17,4 +17,9 @@ public class Aresta implements Comparable<Aresta> {
             return -1;
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%d,%d)",this.de,this.para);
+    }
 }

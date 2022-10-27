@@ -7,7 +7,9 @@ public class Grafo {
     private int numArestas;
     private Integer VISITADO = 0;
 
-    int prev[];
+    private boolean visitados[];
+    private List<Aresta> retorno = new ArrayList<>();
+    private List<Aresta> arvoreProfundidade = new ArrayList<>();
     Map<Integer, PriorityQueue<Aresta>> grafo;
 
     private int raio = Integer.MAX_VALUE;
@@ -38,13 +40,14 @@ public class Grafo {
             throw new RuntimeException(e);
         }
         this.calculaRadioEDiametro();
+        this.visitados = new boolean[this.grafo.size()+1];
     }
 
     private void adicionaAresta(int u,int v,float p){
         if(this.grafo.containsKey(u)){
             this.grafo.get(u).add(new Aresta(u,v,p));
         }else{
-            this.grafo.put(u,new PriorityQueue<Aresta>(List.of(new Aresta(u, v, p))));
+            this.grafo.put(u,new PriorityQueue<Aresta>(Arrays.asList(new Aresta(u, v, p))));
         }
     }
 
@@ -86,14 +89,7 @@ public class Grafo {
     }
 
     public void sequenciaDeGraus(){
-        Comparator<Integer> comparator = new Comparator<>() {
-            @Override
-            public int compare(Integer integer, Integer t1) {
-                return t1 - integer;
-            }
-        };
-        PriorityQueue<Integer> sequencia = new PriorityQueue<>(comparator);
-        ;
+        PriorityQueue<Integer> sequencia = new PriorityQueue<>();
         for(int i=1; i <= 5; i++){
             sequencia.add(this.grafo.get(i).size());
         }
@@ -150,6 +146,14 @@ public class Grafo {
         return diametro;
     }
 
+    public List<Aresta> getArestasRetorno() {
+        return retorno;
+    }
+
+    public List<Aresta> getArvoreProfundidade() {
+        return arvoreProfundidade;
+    }
+
     public ArrayList<String> centro() {
         // verificar a excentricidade de todos os vértices
         // armazenar as excentricidades para cada vértice
@@ -180,5 +184,23 @@ public class Grafo {
 
         return keys;
 
+    }
+
+    public void buscaProfundidade(int u){
+        Aresta primeira = this.grafo.get(u).peek();
+        if(this.visitados[primeira.de]) {
+            this.retorno.add(primeira);
+            return;
+        }
+        this.visitados[primeira.de] = true;
+        this.arvoreProfundidade.add(primeira);
+        PriorityQueue<Aresta> arestas = this.grafo.get(u);
+        if(arestas != null){
+            Iterator<Aresta> iterator = arestas.iterator();
+            while(iterator.hasNext()){
+                Aresta next = iterator.next();
+                buscaProfundidade(next.para);
+            }
+        }
     }
 }
