@@ -187,19 +187,25 @@ public class Grafo {
     }
 
     public void buscaProfundidade(int u){
+
         Aresta primeira = this.grafo.get(u).peek();
-        if(this.visitados[primeira.de]) {
-            this.retorno.add(primeira);
-            return;
-        }
         this.visitados[primeira.de] = true;
-        this.arvoreProfundidade.add(primeira);
+
+
         PriorityQueue<Aresta> arestas = this.grafo.get(u);
         if(arestas != null){
             Iterator<Aresta> iterator = arestas.iterator();
             while(iterator.hasNext()){
                 Aresta next = iterator.next();
-                buscaProfundidade(next.para);
+                if(!this.visitados[next.para]){
+                    this.arvoreProfundidade.add(next);
+                    buscaProfundidade(next.para);
+                }else{
+                    if(!this.arvoreProfundidade.contains(next)){
+                        if(!this.retorno.contains(next))
+                            this.retorno.add(next);
+                    }
+                }
             }
         }
     }
