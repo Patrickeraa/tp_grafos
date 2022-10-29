@@ -63,7 +63,11 @@ public class Grafo {
             System.out.println();
         }
     }
-
+    public void resetBuscaProfundidade(){
+        this.retorno = new ArrayList<>();
+        this.arvoreProfundidade = new ArrayList<>();
+        this.visitados = new boolean[this.grafo.size() + 1];
+    }
     public void ordemDoGrafo(){
         System.out.println(String.format("A ordem do grafo é: %d",this.grafo.size()));
     }
