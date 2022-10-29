@@ -22,4 +22,10 @@ public class Aresta implements Comparable<Aresta> {
     public String toString() {
         return String.format("(%d,%d)",this.de,this.para);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Aresta aresta = (Aresta) obj;
+        return aresta.de == this.para && aresta.para == this.de;
+    }
 }
