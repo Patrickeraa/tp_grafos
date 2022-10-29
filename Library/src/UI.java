@@ -70,6 +70,7 @@ public class UI {
                 break;
             case 10:
                 int origem = solicitaVertice();
+                this.grafo.resetBuscaProfundidade();
                 grafo.buscaProfundidade(origem);
                 System.out.println("Árvore profundidade: "+grafo.getArvoreProfundidade());
                 System.out.println("Arestas retorno: "+grafo.getArestasRetorno());
