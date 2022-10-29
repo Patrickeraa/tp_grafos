@@ -26,6 +26,6 @@ public class Aresta implements Comparable<Aresta> {
     @Override
     public boolean equals(Object obj) {
         Aresta aresta = (Aresta) obj;
-        return aresta.de == this.para && aresta.para == this.de;
+        return aresta.de == this.para && aresta.para == this.de || aresta.para == this.de && aresta.de == this.para;
     }
 }
