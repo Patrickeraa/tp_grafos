@@ -16,8 +16,8 @@
 - ~~Determinar o centro do grafo~~
 - ~~Determinar a sequência de vértices visitados na busca em profundidade e
 informar a(s) aresta(s) que não faz(em) parte da árvore de busca em profundidade.~~
-- Determinar distância e caminho mínimo
-- Determinar a centralidade de proximidade C de um vértice x, dada por
+- ~~Determinar distância e caminho mínimo~~
+- ~~Determinar a centralidade de proximidade C de um vértice x, dada por~~
 
 ![Exemplo2](assets/exemplos/ex2.png)
 
