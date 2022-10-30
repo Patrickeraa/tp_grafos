@@ -1,7 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Grafo {
     private int numArestas;
@@ -15,6 +15,9 @@ public class Grafo {
     private int raio = Integer.MAX_VALUE;
     private int diametro = 0;
 
+    float[][] L;
+    float[][] R;
+
     public Grafo(){
         this.grafo = new HashMap<>();
     }
@@ -22,8 +25,8 @@ public class Grafo {
     public void criaGrafo(){
 
         String property = System.getProperty("user.dir");
-        // File f = new File(property+"/Library/resources/grafo.txt");
-        File f = new File(property+"/resources/grafo.txt");
+        File f = new File(property+"/Library/resources/grafo.txt");
+        // File f = new File(property+"/resources/grafo.txt");
         try (Scanner s = new Scanner(f)) {
             s.nextInt();
             int u,v;
@@ -212,5 +215,106 @@ public class Grafo {
                 }
             }
         }
+    }
+
+    public int getOrdemDoGrafo(){
+        return this.grafo.size();
+    }
+
+    public int getNumArestas(){
+        return this.numArestas;
+    }
+
+    final static float INF = 9999.0F;
+
+    public void distancia(){
+        String property = System.getProperty("user.dir");
+        File f = new File(property+"/Library/resources/grafo.txt");
+
+        int V = getOrdemDoGrafo();
+        
+        // File f = new File(property+"/resources/grafo.txt");
+        try (Scanner s = new Scanner(f)) {
+            s.nextInt();
+            this.L = new float[V][V];
+            int u,v;
+            float p;
+            for (int k = 0; k < this.L.length; k++){
+                for (int j = 0;j<this.L.length;j++){
+                    if (k == j){
+                        this.L[k][j] = 0.0F;
+                    }
+                    else{
+                        this.L[k][j] = INF;
+                    }
+                }
+            }
+            while(s.hasNext()){
+                u = Integer.parseInt(s.next());
+                v = Integer.parseInt(s.next());
+                p = Float.parseFloat(s.next());
+                this.L[u-1][v-1] = p;
+                this.L[v-1][u-1] = p;
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.R = new float[V][V];
+
+        for(int i = 0; i < V; i++){
+            for(int j = 0; j < V; j++){
+
+                if(this.L[i][j] == INF)
+                    R[i][j] = 0;
+
+                else
+                    R[i][j] = i+1;
+            }
+        }
+
+        for (int k = 0; k < V; k++) {
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    if (this.L[i][j] > (this.L[i][k] + this.L[k][j])) {
+                        this.L[i][j] = this.L[i][k] + this.L[k][j];
+                        this.R[i][j] = this.R[k][j];
+                    }
+                }
+            }
+        }
+
+        System.out.println("Matriz de distância: ");
+        printMatrix(this.L, V);
+
+        System.out.println("Matriz de menor caminho: ");
+        printMatrix(this.R, V);
+    }
+    
+    void printMatrix(float[][] matrix, int V) {
+        DecimalFormat numberFormat = new DecimalFormat("0.00");
+        for (int i = 0; i < V; ++i) {
+            for (int j = 0; j < V; ++j) {
+                if (matrix[i][j] == INF)
+                    System.out.print("INF    ");
+                else
+                    System.out.print(numberFormat.format(matrix[i][j]) + "   ");
+            }
+            System.out.println();
+        }
+    }
+
+    public float centralidadeGrafo(int indVertice){
+        distancia();
+        float C, dist = 0;
+        int V = getOrdemDoGrafo();
+
+        for (int i = 0; i < V; i++) {
+            dist += this.L[indVertice-1][i];
+        }
+        
+        C = (V-1)/dist;
+        
+        return C;
     }
 }

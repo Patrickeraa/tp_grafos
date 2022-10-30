@@ -75,7 +75,14 @@ public class UI {
                 System.out.println("Árvore profundidade: "+grafo.getArvoreProfundidade());
                 System.out.println("Arestas retorno: "+grafo.getArestasRetorno());
                 break;
-
+            case 11:
+                grafo.distancia();
+                break;
+            case 12:
+                u = solicitaVertice();
+                float exec = grafo.centralidadeGrafo(u);
+                System.out.println("Centralidade do vértice "+u+": "+exec);
+                break;
 
         }
     }
