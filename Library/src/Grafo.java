@@ -6,7 +6,13 @@ import java.util.*;
 public class Grafo {
     private int numArestas;
     private Integer VISITADO = 0;
-
+    /*
+    * Veriáveis necessárias para algorítmo para identificar SCCs
+    * */
+    private int sccCount,id;
+    private int[] ids,low,sccs;
+    private Deque<Integer> stack;
+    private static int NAO_VISITADO = -1;
     private boolean visitados[];
     private List<Aresta> retorno = new ArrayList<>();
     private List<Aresta> arvoreProfundidade = new ArrayList<>();
@@ -317,4 +323,45 @@ public class Grafo {
         
         return C;
     }
+    private void resolve(){
+        int n = grafo.size();
+        ids = new int[n];
+        low = new int[n];
+        sccs = new int[n];
+        visitados = new boolean[n];
+        stack = new ArrayDeque<>();
+        Arrays.fill(ids,NAO_VISITADO);
+
+        for(int i=0; i< n;i++){
+            if(ids[i] == NAO_VISITADO) dfs(i);
+        }
+    }
+    private void dfs(int de){
+        //Definindo um id para cada nó
+        ids[de] = low[de] = id++;
+        //Colocando o nó inicial na pilha
+        stack.push(de);
+        //Marcando o nó como visitado
+        visitados[de] = true;
+
+        // Recuperando arestas do grafo
+        PriorityQueue<Aresta> arestas = grafo.get(de);
+        if(arestas != null){
+            Iterator<Aresta> iterator = arestas.iterator();
+            while(iterator.hasNext()){
+                Aresta next = iterator.next();
+                if(ids[next.para] == NAO_VISITADO) dfs(next.para);
+                if(visitados[next.para]) low[de] = Math.min(low[de],low[next.para]);
+            }
+        }
+        if(ids[de] == low[de]) {
+            for (int node = stack.pop(); ; node = stack.pop()) {
+                visitados[node] = false;
+                sccs[node] = sccCount;
+                if (node == de) break;
+            }
+            sccCount++;
+        }
+    }
+
 }
