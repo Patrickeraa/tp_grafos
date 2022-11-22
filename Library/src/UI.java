@@ -22,6 +22,10 @@ public class UI {
                             "|| 10 || Vértices visitados na busca em profundidade e aresta(s) que não faz(em) dessa busca||\n" +
                             "|| 11 || Determinar distância e caminho mínimo                                              ||\n" +
                             "|| 12 || Determinar a centralidade de proximidade C de um vértice x                         ||\n" +
+                            "|| 13 || Determinar se o grafo contem ciclo(s)                                              ||\n" +
+                            "|| 14 || Determinar a árvore geradora mínima de um grafo                                    ||\n" +
+                            "|| 15 || Determinar uma cobertura mínima de vértices                                        ||\n" +
+                            "|| 16 || Determinar o emparelhamento máximo                                                 ||\n" +
                             "||  0 || Para sair                                                                          ||\n" +
                             "\\\\====[]====================================================================================//\n"
         );
@@ -83,7 +87,9 @@ public class UI {
                 float exec = grafo.centralidadeGrafo(u);
                 System.out.println("Centralidade do vértice "+u+": "+exec);
                 break;
-
+            case 13:
+                boolean temCiclo = grafo.temCiclos();
+                System.out.println(String.format("O grafo %s ciclo",temCiclo?"tem":"não tem"));
         }
     }
     private int solicitaVertice(){
