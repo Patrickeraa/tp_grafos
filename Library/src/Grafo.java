@@ -13,6 +13,7 @@ public class Grafo {
     private int[] ids,low,sccs;
     private Deque<Integer> stack;
     private static int NAO_VISITADO = -1;
+    private boolean[] onStack;
     private boolean visitados[];
     private List<Aresta> retorno = new ArrayList<>();
     private List<Aresta> arvoreProfundidade = new ArrayList<>();
@@ -31,8 +32,8 @@ public class Grafo {
     public void criaGrafo(){
 
         String property = System.getProperty("user.dir");
-        File f = new File(property+"/Library/resources/grafo.txt");
-        // File f = new File(property+"/resources/grafo.txt");
+//        File f = new File(property+"/Library/resources/grafo2.txt");
+         File f = new File(property+"/resources/grafo2.txt");
         try (Scanner s = new Scanner(f)) {
             s.nextInt();
             int u,v;
@@ -43,7 +44,7 @@ public class Grafo {
                 v = Integer.parseInt(s.next());
                 p = Float.parseFloat(s.next());
                 adicionaAresta(u,v,p);
-                adicionaAresta(v,u,p);
+//                adicionaAresta(v,u,p); // Comentei esta linha para trabalhar com grafos direcionados
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -323,16 +324,30 @@ public class Grafo {
         
         return C;
     }
+    public boolean temCiclos(){
+        resolve();
+        System.out.printf("Número de ciclos: %d\n",sccCount);
+        return sccCount > 0;
+    }
     private void resolve(){
-        int n = grafo.size();
+        // Inicializando todas as variáveis
+        sccCount = id = 0;
+        //Número de vértices
+        int n = grafo.size() + 1;
+        //Array de ids para identificar os vértices
         ids = new int[n];
+        // Array para determinar o menor id dos vértices de um ciclo
         low = new int[n];
+        // Array para retornar os componentes (não foi pedido, apenas se necessário)
         sccs = new int[n];
-        visitados = new boolean[n];
+        // Array para verificar se um vértice está na pilha
+        onStack = new boolean[n];
+        // Pilha para conter os vértices que estão sendo visitados no momento
         stack = new ArrayDeque<>();
+        // Inicializando o vetor de ids com todas posições não visitadas
         Arrays.fill(ids,NAO_VISITADO);
-
-        for(int i=0; i< n;i++){
+        // Percorrendo todos os vértices e realizando dfs nos que não foram visitados ainda.
+        for(int i=1; i< n;i++){
             if(ids[i] == NAO_VISITADO) dfs(i);
         }
     }
@@ -341,22 +356,36 @@ public class Grafo {
         ids[de] = low[de] = id++;
         //Colocando o nó inicial na pilha
         stack.push(de);
-        //Marcando o nó como visitado
-        visitados[de] = true;
+        //Identificando que um vértice está na pilha
+        onStack[de] = true;
 
         // Recuperando arestas do grafo
         PriorityQueue<Aresta> arestas = grafo.get(de);
         if(arestas != null){
+            // Iterar por todos os vizinhos de um vértice
             Iterator<Aresta> iterator = arestas.iterator();
             while(iterator.hasNext()){
                 Aresta next = iterator.next();
+                /* Parte mais impoortante do algorítmo
+                * Se um vértice vizinho não foi visitado, realiza bfs naquele vértice
+                * Quando retornar do bfs, deve-se comparar o menor valor entre o vértice de origem e o de destino
+                * Acrescentar no array low, o menor id, entre os vértices visitados
+                * Como se trata do retorno de uma chamada recursiva, é possível definir o menor valor para todos os vértices já visitados
+                *
+                * */
                 if(ids[next.para] == NAO_VISITADO) dfs(next.para);
-                if(visitados[next.para]) low[de] = Math.min(low[de],low[next.para]);
+                if(onStack[next.para]) low[de] = Math.min(low[de],low[next.para]);
             }
         }
+        /* Ao terminar de visitar todos os vértices, identifica-se a posição do vértice de menor id
+         * Com isso é possível saber onde o cíclo começa.
+         * E para saber onde o ciclo termina, basta remover da pilha os vértices com o mesmo id
+         * Ao terminar essa remoção sabemos que encontramos um componente (ou ciclo)
+         * */
+//        System.out.println((ids));
         if(ids[de] == low[de]) {
             for (int node = stack.pop(); ; node = stack.pop()) {
-                visitados[node] = false;
+                onStack[node] = false;
                 sccs[node] = sccCount;
                 if (node == de) break;
             }
