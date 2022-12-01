@@ -89,10 +89,13 @@ public class UI {
             case 13:
                 boolean temCiclo = grafo.temCiclos();
                 System.out.println(String.format("O grafo %s ciclo",temCiclo?"tem":"não tem"));
+                break;
             case 14:
                 grafo.arvoreGeradoraPrim();
+                break;
             case 15:
                 grafo.coberturaMinima();
+                break;
         }
     }
     

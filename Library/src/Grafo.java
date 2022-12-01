@@ -1,5 +1,7 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -270,11 +272,11 @@ public class Grafo {
 
     public void distancia(){
         String property = System.getProperty("user.dir");
-        File f = new File(property+"/Library/resources/grafo.txt");
+        //File f = new File(property+"/Library/resources/grafo.txt");
 
         int V = getOrdemDoGrafo();
         
-        // File f = new File(property+"/resources/grafo.txt");
+        File f = new File(property+"/resources/grafo.txt");
         try (Scanner s = new Scanner(f)) {
             s.nextInt();
             this.L = new float[V][V];
@@ -458,16 +460,13 @@ public class Grafo {
             }
         }
 
-        System.out.println("Cobertura mínima: \n");   
+        System.out.println("Cobertura mínima: \n");
         for (int i = 0; i < cobertura.size(); i++) {
-            System.out.println("V: "+cobertura.get(i).n+", Grau: "+ cobertura.get(i).grau +"\n");   
+            System.out.println("V: "+cobertura.get(i).n+", Grau: "+ cobertura.get(i).grau +"\n");
         }
-    
-    }
-
-    public void emparelhamento() {
 
     }
+
 
     //-------------Utilizamos algoritmo de Prim-----------------
     public void arvoreGeradoraPrim(){
@@ -544,10 +543,22 @@ public class Grafo {
 
     void printMST(int parent[], float grafo[][], int V)
     {
-        System.out.println("Aresta \tPeso");
-        for (int i = 1; i < V; i++)
-            System.out.println((parent[i] + 1) + " - " + (i+1) + "\t"
-                    + grafo[i][parent[i]]);
+        try {
+            String property = System.getProperty("user.dir");
+            //        File f = new File(property+"/Library/resources/grafo2.txt");
+            FileWriter fstream = new FileWriter(property+"/resources/arvoreGeradora/arvorePrim.txt");
+            BufferedWriter info = new BufferedWriter(fstream);
+            info.write("Aresta \tPeso");
+            info.newLine();
+            for (int i = 1; i < V; i++) {
+                info.write((parent[i] + 1) + " - " + (i + 1) + "\t"
+                        + grafo[i][parent[i]]);
+                info.newLine();
+            }
+            info.close();
+        } catch (Exception e) {
+            System.out.println("Um erro ocorreu na escrita do arquivo!!");
+        }
     }
 
     void matchingMaximo(){
