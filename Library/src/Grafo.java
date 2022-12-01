@@ -340,7 +340,7 @@ public class Grafo {
     public boolean temCiclos(){
         resolve();
         System.out.printf("Número de ciclos: %d\n",sccCount);
-        return sccCount > 0;
+        return sccCount > 1;
     }
 
     private void resolve(){
@@ -447,4 +447,84 @@ public class Grafo {
 
     }
 
+    //-------------Utilizamos algoritmo de Prim-----------------
+    public void arvoreGeradoraPrim(){
+        String property = System.getProperty("user.dir");
+//        File f = new File(property+"/Library/resources/grafo2.txt");
+        File f = new File(property+"/resources/grafoOG.txt");
+        int V;
+        try (Scanner s = new Scanner(f)) {
+            V = s.nextInt();
+            this.L = new float[V][V];
+            int u,v;
+            float p;
+            for (int k = 0; k < this.L.length; k++){
+                for (int j = 0;j<this.L.length;j++){
+                    L[k][j] = 0.0F;
+                }
+            }
+            while(s.hasNext()){
+                u = Integer.parseInt(s.next());
+                v = Integer.parseInt(s.next());
+                p = Float.parseFloat(s.next());
+                this.L[u-1][v-1] = p;
+                this.L[v-1][u-1] = p;
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        {
+            int parent[] = new int[V];
+
+            float key[] = new float[V];
+            Boolean mstSet[] = new Boolean[V];
+
+            for (int i = 0; i < V; i++) {
+                key[i] = Integer.MAX_VALUE;
+                mstSet[i] = false;
+            }
+
+            key[0] = 0;
+            parent[0] = -1;
+            for (int count = 0; count < V - 1; count++) {
+
+                float u = minKey(key, mstSet, V);
+
+                mstSet[(int)u] = true;
+
+                for (int v = 0; v < V; v++)
+
+                    if (L[(int)u][v] != 0 && mstSet[v] == false
+                            && L[(int)u][v] < key[v]) {
+                        parent[v] = (int)u;
+                        key[v] = L[(int)u][v];
+                    }
+            }
+
+            printMST(parent, L, V);
+        }
+
+    }
+
+    float minKey(float key[], Boolean mstSet[], int V)
+    {
+        float min = Float.MAX_VALUE, min_index = -1;
+
+        for (int v = 0; v < V; v++)
+            if (mstSet[v] == false && key[v] < min) {
+                min = key[v];
+                min_index = v;
+            }
+
+        return min_index;
+    }
+
+    void printMST(int parent[], float grafo[][], int V)
+    {
+        System.out.println("Aresta \tPeso");
+        for (int i = 1; i < V; i++)
+            System.out.println((parent[i] + 1) + " - " + (i+1) + "\t"
+                    + grafo[i][parent[i]]);
+    }
 }
