@@ -28,6 +28,28 @@ public class Grafo {
     float[][] L;
     float[][] R;
 
+    private float[] graus;
+    private float[][] matriz;
+    private List<Vertice> matching;
+    private void criaMatrizAdjacencia(){
+        int n = this.grafo.size();
+        matriz = new float[n][n];
+        float count = 1.0f;
+        for(int i=0;i < n;i++){
+            for( int j =0;j < n;j++){
+                matriz[i][j] = 0f;
+            }
+        }
+        for(int i=0;i < n;i++){
+            PriorityQueue<Aresta> arestas = this.grafo.get(i + 1);
+            Iterator<Aresta> iterator = arestas.iterator();
+            while(iterator.hasNext()){
+                Aresta next = iterator.next();
+                matriz[next.de - 1][next.para -1] = next.peso;
+            }
+        }
+    }
+
     public Grafo(){
         this.grafo = new HashMap<>();
     }
@@ -36,7 +58,7 @@ public class Grafo {
 
         String property = System.getProperty("user.dir");
         File f = new File(property+"/Library/resources/grafo.txt");
-        // File f = new File(property+"/resources/grafo2.txt");
+//         File f = new File(property+"/resources/grafo2.txt");
         try (Scanner s = new Scanner(f)) {
             s.nextInt();
             int u,v;
@@ -526,5 +548,45 @@ public class Grafo {
         for (int i = 1; i < V; i++)
             System.out.println((parent[i] + 1) + " - " + (i+1) + "\t"
                     + grafo[i][parent[i]]);
+    }
+
+    void matchingMaximo(){
+        this.criaMatrizAdjacencia();
+        this.matching = new ArrayList<>();
+        int count =0;
+        int n = this.grafo.size();
+        while(!matrizNula() && count < n){
+            Vertice vertice = this.vertices.get(count);
+            if(!vetorNulo(vertice.n - 1)){
+                matching.add(vertice);
+                for(int i=0; i < n;i++){
+                    this.matriz[vertice.n - 1][i] = 0f;
+                    this.matriz[i][vertice.n - 1] = 0f;
+                }
+            }
+            count++;
+        }
+        System.out.println("Vetor de vértices: "+vertices);
+        System.out.println("Matching: "+ matching);
+        System.out.printf("Número de arestas do matching %d\n",matching.size());
+    }
+    private boolean matrizNula(){
+        float sum = 0f;
+        int n = this.grafo.size();
+        for(int i=0; i< n; i++){
+            for(int j=0; j< n; j++){
+                sum += matriz[i][j];
+            }
+            if(sum > 0) return false;
+        }
+        return sum == 0;
+    }
+    private boolean vetorNulo(int l){
+        int n = this.grafo.size();
+        float sum = 0f;
+        for(int i=0; i< n; i++){
+            sum += this.matriz[l][i];
+        }
+        return sum == 0;
     }
 }
