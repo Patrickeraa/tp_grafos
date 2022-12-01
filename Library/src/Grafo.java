@@ -44,7 +44,7 @@ public class Grafo {
                 v = Integer.parseInt(s.next());
                 p = Float.parseFloat(s.next());
                 adicionaAresta(u,v,p);
-//                adicionaAresta(v,u,p); // Comentei esta linha para trabalhar com grafos direcionados
+                adicionaAresta(v,u,p);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -474,9 +474,5 @@ public class Grafo {
         for (int i = 1; i < V; i++)
             System.out.println((parent[i] + 1) + " - " + (i+1) + "\t"
                     + grafo[i][parent[i]]);
-    }
-
-    public void arvoreGeradoraKruskal(){
-
     }
 }
