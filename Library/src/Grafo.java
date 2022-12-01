@@ -17,6 +17,9 @@ public class Grafo {
     private boolean visitados[];
     private List<Aresta> retorno = new ArrayList<>();
     private List<Aresta> arvoreProfundidade = new ArrayList<>();
+    private ArrayList<Vertice> vertices = new ArrayList<>();
+    private ArrayList<Vertice> unav = new ArrayList<>();
+    private ArrayList<Vertice> cobertura = new ArrayList<>();
     Map<Integer, PriorityQueue<Aresta>> grafo;
 
     private int raio = Integer.MAX_VALUE;
@@ -32,8 +35,8 @@ public class Grafo {
     public void criaGrafo(){
 
         String property = System.getProperty("user.dir");
-//        File f = new File(property+"/Library/resources/grafo2.txt");
-         File f = new File(property+"/resources/grafo2.txt");
+        File f = new File(property+"/Library/resources/grafo.txt");
+        // File f = new File(property+"/resources/grafo2.txt");
         try (Scanner s = new Scanner(f)) {
             s.nextInt();
             int u,v;
@@ -44,13 +47,19 @@ public class Grafo {
                 v = Integer.parseInt(s.next());
                 p = Float.parseFloat(s.next());
                 adicionaAresta(u,v,p);
-//                adicionaAresta(v,u,p); // Comentei esta linha para trabalhar com grafos direcionados
+                adicionaAresta(v,u,p); // Comentei esta linha para trabalhar com grafos direcionados
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
         this.calculaRadioEDiametro();
         this.visitados = new boolean[this.grafo.size()+1];
+        for(Integer key: this.grafo.keySet()){
+            Vertice vx = new Vertice(key, this.grafo.get(key).size());
+            vertices.add(vx);
+        }
+
+        Collections.sort(vertices);
     }
 
     private void adicionaAresta(int u,int v,float p){
@@ -73,11 +82,13 @@ public class Grafo {
             System.out.println();
         }
     }
+    
     public void resetBuscaProfundidade(){
         this.retorno = new ArrayList<>();
         this.arvoreProfundidade = new ArrayList<>();
         this.visitados = new boolean[this.grafo.size() + 1];
     }
+    
     public void ordemDoGrafo(){
         System.out.println(String.format("A ordem do grafo é: %d",this.grafo.size()));
     }
@@ -143,6 +154,7 @@ public class Grafo {
         }
         return profundidade;
     }
+    
     private void calculaRadioEDiametro(){
         for(Integer u :this.grafo.keySet()){
             System.out.println(u);
@@ -324,11 +336,13 @@ public class Grafo {
         
         return C;
     }
+
     public boolean temCiclos(){
         resolve();
         System.out.printf("Número de ciclos: %d\n",sccCount);
         return sccCount > 0;
     }
+
     private void resolve(){
         // Inicializando todas as variáveis
         sccCount = id = 0;
@@ -351,6 +365,7 @@ public class Grafo {
             if(ids[i] == NAO_VISITADO) dfs(i);
         }
     }
+
     private void dfs(int de){
         //Definindo um id para cada nó
         ids[de] = low[de] = id++;
@@ -391,6 +406,45 @@ public class Grafo {
             }
             sccCount++;
         }
+    }
+
+    public void coberturaMinima() {
+        // vetor de vertices
+        // vetor de arestas
+        // ordenar vertices por grau
+        // pegar o vertice de maior grau
+        // adicionar ao vetor de cobertura minima
+        // remover ele e as arestas dos vetores
+        // selecionar o proximo vertice
+        // repetir
+
+        for (Vertice vet : vertices) {
+            if (unav.contains(vet)) {
+                continue;
+            }
+            cobertura.add(vet);
+            unav.add(vet);
+            PriorityQueue<Aresta> arestas = this.grafo.get(vet.n);
+            Iterator<Aresta> iterator = arestas.iterator();
+            while(iterator.hasNext()){
+                int t = iterator.next().para;
+                for (Vertice vet1 : vertices) {
+                    if (vet1.n == t) {
+                        unav.add(vet1);
+                    }
+                }
+            }
+        }
+
+        System.out.println("Cobertura mínima: \n");   
+        for (int i = 0; i < cobertura.size(); i++) {
+            System.out.println("V: "+cobertura.get(i).n+", Grau: "+ cobertura.get(i).grau +"\n");   
+        }
+    
+    }
+
+    public void emparelhamento() {
+
     }
 
 }

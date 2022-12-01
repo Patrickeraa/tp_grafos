@@ -90,8 +90,11 @@ public class UI {
             case 13:
                 boolean temCiclo = grafo.temCiclos();
                 System.out.println(String.format("O grafo %s ciclo",temCiclo?"tem":"não tem"));
+            case 15:
+                grafo.coberturaMinima();
         }
     }
+    
     private int solicitaVertice(){
         Scanner input = new Scanner(System.in);
         System.out.print("Informe um vértice:");
