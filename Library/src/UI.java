@@ -6,7 +6,6 @@ public class UI {
     public UI(){
         this.grafo = new Grafo();
         grafo.criaGrafo();
-        grafo.imprimeGrafo();
     }
     private void menu(){
         System.out.println( "//====[]====================================================================================\\\\\n" +
