@@ -496,7 +496,7 @@ public class Grafo {
         }
 
         {
-            int parent[] = new int[V];
+            int arvore[] = new int[V];
 
             float key[] = new float[V];
             Boolean mstSet[] = new Boolean[V];
@@ -507,7 +507,7 @@ public class Grafo {
             }
 
             key[0] = 0;
-            parent[0] = -1;
+            arvore[0] = -1;
             for (int count = 0; count < V - 1; count++) {
 
                 float u = minKey(key, mstSet, V);
@@ -518,14 +518,12 @@ public class Grafo {
 
                     if (L[(int)u][v] != 0 && mstSet[v] == false
                             && L[(int)u][v] < key[v]) {
-                        parent[v] = (int)u;
+                        arvore[v] = (int)u;
                         key[v] = L[(int)u][v];
                     }
             }
-
-            printMST(parent, L, V);
+            printArvore(arvore, L, V);
         }
-
     }
 
     float minKey(float key[], Boolean mstSet[], int V)
@@ -541,7 +539,7 @@ public class Grafo {
         return min_index;
     }
 
-    void printMST(int parent[], float grafo[][], int V)
+    void printArvore(int arvore[], float grafo[][], int V)
     {
         try {
             String property = System.getProperty("user.dir");
@@ -551,8 +549,8 @@ public class Grafo {
             info.write("Aresta \tPeso");
             info.newLine();
             for (int i = 1; i < V; i++) {
-                info.write((parent[i] + 1) + " - " + (i + 1) + "\t"
-                        + grafo[i][parent[i]]);
+                info.write((arvore[i] + 1) + " - " + (i + 1) + "\t"
+                        + grafo[i][arvore[i]]);
                 info.newLine();
             }
             info.close();
