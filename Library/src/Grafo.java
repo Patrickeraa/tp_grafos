@@ -456,7 +456,6 @@ public class Grafo {
 
     float minKey(float key[], Boolean mstSet[], int V)
     {
-        // Initialize min value
         float min = Float.MAX_VALUE, min_index = -1;
 
         for (int v = 0; v < V; v++)
