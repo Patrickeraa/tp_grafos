@@ -250,11 +250,11 @@ public class Grafo {
 
     public void distancia(){
         String property = System.getProperty("user.dir");
-        File f = new File(property+"/Library/resources/grafo.txt");
+        //File f = new File(property+"/Library/resources/grafo.txt");
 
         int V = getOrdemDoGrafo();
         
-        // File f = new File(property+"/resources/grafo.txt");
+        File f = new File(property+"/resources/grafo.txt");
         try (Scanner s = new Scanner(f)) {
             s.nextInt();
             this.L = new float[V][V];
@@ -438,16 +438,13 @@ public class Grafo {
             }
         }
 
-        System.out.println("Cobertura mínima: \n");   
+        System.out.println("Cobertura mínima: \n");
         for (int i = 0; i < cobertura.size(); i++) {
-            System.out.println("V: "+cobertura.get(i).n+", Grau: "+ cobertura.get(i).grau +"\n");   
+            System.out.println("V: "+cobertura.get(i).n+", Grau: "+ cobertura.get(i).grau +"\n");
         }
-    
-    }
-
-    public void emparelhamento() {
 
     }
+
 
     //-------------Utilizamos algoritmo de Prim-----------------
     public void arvoreGeradoraPrim(){
