@@ -28,4 +28,9 @@ public class Aresta implements Comparable<Aresta> {
         Aresta aresta = (Aresta) obj;
         return aresta.de == this.para && aresta.para == this.de || aresta.para == this.de && aresta.de == this.para;
     }
+
+    public float comparadorArvore(Aresta compareAresta)
+    {
+        return (this.peso - compareAresta.peso);
+    }
 }
